@@ -175,5 +175,13 @@ cython_debug/
 *.out
 *.swp
 *.toc
+main.bcf
+main.dvi
+main.ilg
+main.lol
+main.nlo
+main.nls
+main.out.ps
+main.run.xml
 *-eps-converted-to.pdf
 *~
