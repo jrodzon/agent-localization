@@ -7,7 +7,7 @@ define Show =
 	evince main.pdf 2>/dev/null &
 endef
 
-main.pdf: main.tex tex/[1-6]-*.tex *.bib initial-pages.pdf
+main.pdf: main.tex tex/[1-6]-*.tex *.bib
 	rm -f main.aux
 	pdflatex --shell-escape main
 	biber main
