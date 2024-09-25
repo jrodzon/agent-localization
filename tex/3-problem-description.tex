@@ -1,16 +1,21 @@
 
 \chapter{Problem Description} \label{chap:problem-description}
 
-\bt
+\section{Plane Segmentation Real-life Usability}
 
-\section{Problem 1}
+Many technologies claim that their results are unprecedented, with almost endless application possibilities.
+Indeed, this is often true, but some algorithms or frameworks are tested on specific datasets.
+This is especially the case for neural-network-based solutions, where the test and train data are extracted from the same dataset.
+Therefore, when one tries to apply such technology practically and subjects it to completely different data (from the test and train data), it sometimes turns out that the results are not as good as claimed.
 
-\bt
+\par
 
-\section{Problem 2}
+I have selected two state-of-the-art methods that use RGB-only data:
 
-\bt 
+\begin{enumerate}
+    \item planercnn \cite{articlePlaneRCNN}
+    \item PlaneRecNet \cite{xie2021planerecnet}
+\end{enumerate}
 
-\section{Problem 3}
-
-
+Both of these technologies, besides performing plane segmentation, provide depth estimation.
+This feature can give insight into the particular algorithm's 'understanding' of an image.

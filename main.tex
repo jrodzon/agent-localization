@@ -110,6 +110,18 @@
 % My additional packages
 \usepackage{blindtext}
 \usepackage{mathrsfs}						% Ładne pisane litery do równań
+\usepackage{siunitx}                        % Standardowe jednoski, w tym momencie głównie kąt nachylenia w stopniach
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom yaml style
+\lstdefinestyle{yaml}{
+     basicstyle=\color{black}\footnotesize,
+     rulecolor=\color{black},
+     string=[s]{'}{'},
+     stringstyle=\color{blue},
+     comment=[l]{:},
+     commentstyle=\color{black},
+     morecomment=[l]{-}
+ }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  % Konfiguracja rysunków TikZ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
