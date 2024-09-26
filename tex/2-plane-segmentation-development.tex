@@ -3,13 +3,12 @@
 
 \section{RGB-D Approach}
 
-As the whole artificial intelligence field has been developing rapidly over the past few years, plane segmentation is no exception.
 In the previous century, it was almost unimaginable to parse the film in real time and interpret the frames.
-Furthermore, it seemed that the depth component was necessary to find plane segments in the pictures.
-Since the RBG-D sensors were only available in the form of expensive machines
+Furthermore, the depth component seemed necessary to find plane segments in the pictures.
+Since the RBG-Depth (RGB-D) sensors were only available in the form of expensive machines
 like time-of-flight cameras or scanning 3-D laser range finders, \cite{articleFPSLinePrimitivesRGBD}
 there were no possibilities for a broad usage of this technology, and thus, it saw little interest.
-Nevertheless, there were multiple approaches to recognizing planar sections in the pictures.
+Nevertheless, there were several approaches for recognizing planar sections in the pictures.
 
 \subsection{Rabbani Classification}
 
@@ -44,9 +43,9 @@ Algorithms of this type try to merge points with similar local surface propertie
 
 \item Bottom-up
 
-It begins by selecting some starting points and expanding from them using some predefined similarities.
-It is worth noting that the selection of these initial points is crucial as the results are dependent on them - i.e.,
-you don't find segments without starting points within them.
+It begins with selecting starting points and expanding from them using some predefined similarities.
+It is worth noting that choosing these initial points is crucial as the results depend on them - i.e.,
+you do not find segments without starting points within them.
 
 \item Top-down
 
@@ -55,8 +54,8 @@ Then, it cuts it into smaller pieces until it achieves a predefined fitting thre
 
 \end{itemize}
 
-One of the most prominent uses of this approach is published by Xiang et al. \cite{XiangSurfaceBasedSegmentation}
-They utilize the bottom-up approach, as it is far more often used than the top-down technique.
+One of the most prominent uses of this approach was published by Xiang et al. \cite{XiangSurfaceBasedSegmentation}.
+They utilized the bottom-up approach, which generally is used much more often than the top-down technique.
 
 \item \textbf{Scanline-based segmentation}
 
@@ -72,41 +71,41 @@ This stage involves processing scanlines to find line segments.
 
 \item Line segments grouping
 
-In this step, the extracted line segments are grouped with the neighboring ones based on their similar surface properties
+In this step, the extracted line segments are grouped with the neighbouring ones based on their similar surface properties
 to form plane segments.
 
 \end{itemize}
 
-One of the first publications regarding this technique is made by
-Jiang et al. \cite{JiangOneOfTheFirstScanlineStrategies} giving a groundbreaking performance at the time.
-Natonek \cite{inproceedingsNatonekScanlinesForRobots} utilized a similar approach for robots
-just two years later having promising results.
+One of the first publications regarding this technique was made by Jiang et al. \cite{JiangOneOfTheFirstScanlineStrategies},
+giving a groundbreaking performance at the time.
+Natonek \cite{inproceedingsNatonekScanlinesForRobots} utilized a similar approach for robots just two years later, having promising results.
 
 \end{enumerate}
 
-As we can see, these various techniques try to tackle the plane segmentation problem from different quarters,
-but most implementations require a large amount of computation.
-This fact renders them inconvenient for real-time agent localization,
-because they are not able to process multiple frames per second.
+These various techniques tackled plane segmentation from different perspectives.
+However, most implementations required a large amount of computation,
+thus rendering them inconvenient for real-time agent localization
+due to the inability to process multiple frames per second.
 
 \subsection{RGB-D Affordability}
 
-Plane segmentation started drawing more attention at the beginning of the 2010s with the availability of inexpensive RGB-D sensors
-(e.g. Microsoft Kinect). \cite{articleFPSLinePrimitivesRGBD}
-With the lower price came higher availability and more promising research results.
-Multiple algorithms arose during the popularization of this topic.
-One of the early works with successful SLAM with Kinect 3D sensor
-was presented by Taguchi et al. \cite{inproceedingsEarlySLAMWithRANSACWithKinectSensor}
-They have incorporated the RANSAC \cite{articleRANSAC} algorithm
-(a widely used technique in the PCL library \cite{inproceedingsPCL}) with planes and points as primitives.
-Then, multiple other promising methods arose, like:
+Plane segmentation started drawing more attention at the beginning of the 2010s
+when inexpensive RGB-D sensors (e.g. Microsoft Kinect) became available \cite{articleFPSLinePrimitivesRGBD}.
+With the lower price came higher availability and more research.
+Multiple algorithms were developed at that time.
+They included different variations of plane extraction from the depth property with various optimisations,
+among others:
 \begin{itemize}
-\item Published by Salas-Moreno et al. \cite{inproceedingsPCAInSLAMToFindPlaneCandidates},
-which uses PCA to find plane candidates
-\item Developed by Michael Kaes \cite{articleSLAMInfinitePlanes},
-which uses infinite planes and least-squares for mapping, combined with minimal representation.
-\item Brought by Hsiao et al. \cite{inproceedingsKeyframeSLAM},
-which uses keyframe-based approach and is viable on CPU-only devices.
+\item By Taguchi et al. \cite{inproceedingsEarlySLAMWithRANSACWithKinectSensor} - one that successfully uses
+Simultaneous Location and Mapping (SLAM) with a Kinect 3D sensor.
+It contains the Random Sample Consensus (RANSAC) \cite{articleRANSAC} - a widely used technique
+in the Point Cloud Library (PCL) \cite{inproceedingsPCL};
+\item By Salas-Moreno et al. \cite{inproceedingsPCAInSLAMToFindPlaneCandidates} - one that uses
+Principal Component Analysis (PCA) to find plane candidates;
+\item By Michael Kaes \cite{articleSLAMInfinitePlanes} - one that uses infinite planes and least-squares for mapping,
+combined with minimal representation;
+\item By Hsiao et al. \cite{inproceedingsKeyframeSLAM} - one that uses a keyframe-based approach
+and is viable on Central Processing Unit (CPU)-only devices.
 \end{itemize}
 All of them utilize some variation of plane extraction from the depth property with a veraiety of optimizations.
 
@@ -114,10 +113,11 @@ All of them utilize some variation of plane extraction from the depth property w
 
 For every RGB-D algorithm, it is essential to correctly calculate the real point coordinates
 based on the pixel location in the image.
-It defines the mapping between the camera and the world.
-It includes the focal length and the principal point (often the image center).
-To perform the computation, we need to know the camera matrix (i.e., camera intrinsic parameters):
+The results map the factual world as seen by the camera.
+The computation includes the focal length and the principal point (often the image centre)
+and requires camera intrinsic parameters. 
 
+In the first step, the camera matrix ($C$) is determined:
 \begin{equation} \label{equation-camera-matrix}
 	C = \begin{bmatrix}
 		f_x &   0 & c_x & \\
@@ -134,8 +134,8 @@ where:
 \item $c_y$ is the principal point y-axis coordinate
 \end{itemize}
 
-Then, for each pixel with 2D coordinates $p(u,v)$ we can calculate the world point $P(\mathbf{X},\mathbf{Y},\mathbf{Z})$ as follows:
-
+Then, for each pixel with 2D coordinates $p(u,v)$
+the world point $P(\mathbf{X},\mathbf{Y},\mathbf{Z})$ can be calculated as follows:
 \begin{equation} \label{equation-world-point-calculation}
     \begin{cases}
         \mathbf{X} = \frac{( u - c_x ) \cdot \mathbf{Z}}{f_x} \\
@@ -151,7 +151,8 @@ where:
     \item $v$ is the pixel $p$ y-axis coordinate
 \end{itemize}
 
-The pixel projection mapping can be visible in the Figure~\ref{figure:Pinhole-Camera-Model}
+Figure~\ref{figure:Pinhole-Camera-Model} presents a visual explanation
+of the pixel projection mapping described above.
 
 \begin{figure}[H]
     \centering
@@ -160,15 +161,15 @@ The pixel projection mapping can be visible in the Figure~\ref{figure:Pinhole-Ca
     \label{figure:Pinhole-Camera-Model}
 \end{figure}
 
-The resulting set of 3D points is called a Point Cloud. \cite{point-cloud}
-In addition, the Point Cloud is organized,
-meaning that the adjacent points are spatially placed next to each other.
-Also, the memory layout corresponds to the same ordering,
-which speeds up the steps of many algorithms like searching for nearest neighbors.
+A set of 3D points, called Point Cloud, is obtained from the computation \cite{point-cloud}.
+Points in the cloud are organized, therefore, adjacent points correspond to real neighbouring locations.
+Consequently, the memory layout uses the same order, which speeds up the steps of many algorithms,
+like searching for nearest neighbours.
 
 \subsection{RGB-D State of the art}
 
-One of the best algorithms regarding agent localization was proposed by Zhang \cite{articleFPSLinePrimitivesRGBD} et al.
+One of the most successful algorithms developed using the RGB-D technique
+is published by Zhang \cite{articleFPSLinePrimitivesRGBD} et al. discussed in more detail in the following chapter.
 Their technique is based on scanlines.
 The high-level overview of the algorithm can be seen in the Figure~\ref{figure:Flowchart-Zhang}.
 
@@ -267,7 +268,7 @@ Example plane candidates result can be seen in the Figure~\ref{figure:Scanlines-
 
 For plane extraction, the recursive algorithm is used, which is presented in the Algorithm~\ref{alg:recursive-plane-extraction}
 It takes every plane candidate and discards each with its inlier $N_s$ smaller than the minimal threshold $N_{s thresh}$.
-Then, it calculates the quality of the inlier by counting how many neighbors within range $d_n$
+Then, it calculates the quality of the inlier by counting how many neighbours within range $d_n$
 are closer to the plane than a distance threshold $d_{\tau}$.
 The candidate is also invalidated if the number of valid points is smaller than the minimal threshold $N_{\xi_{thresh}}$.
 Next, the biggest approved inlier $N_{\xi_{max}}$ is considered to be part of the plane segment from the final result.
@@ -290,7 +291,7 @@ This sequence of actions is repeated recursively until there are no valid plane 
                     count number of valid points $N_s$ in normal smoothing region \\
                     \eIf{$N_s > N_{s thresh}$}{
                         count number of valid points $N_{\hat{\xi_i}}$ by point-plane
-                        distance threshold $d_{\tau}$ and neighbor distance
+                        distance threshold $d_{\tau}$ and neighbour distance
                         threshold $d_n$ \\
                         \If{$N_{\hat{\xi_i}} > N_{\hat{\xi_{max}}}$ \textbf{and} $N_{\hat{\xi_i}} > N_{\hat{\xi_{thresh}}}$}{
                             $N_{\hat{\xi_{max}}} = N_{\hat{\xi_i}}$

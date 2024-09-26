@@ -9,15 +9,11 @@ This section describes the working environment from both, software and hardware 
 
 The following technology stack was used:
 \begin{itemize}
-  \item \textbf{Ubuntu} - Linux operating system widely used in the computer vision community.
-  Multiple versions were used: \texttt{16.04}, \texttt{20.04}, \texttt{22.04}, \texttt{24.04}. \cite{ubuntu-site}
-  \item \textbf{Conda} - Package manager for isolated environments for each of the used projects. \cite{conda-documentation}
-  \item \textbf{Python} - Main programming language for writing code and conducting experiments.
-  Multiple versions were used: \texttt{3.7.16}, \texttt{3.9.10}, \texttt{3.9.18}. \cite{python}
-  \item \textbf{CUDA} - A development environment for GPU-accelerated applications.
-  Multiple versions were used: \texttt{11.6.1}, \texttt{11.7.1} \cite{cuda-toolkit}
-  \item \textbf{PyTorch} - A machine learning framework with CUDA integration.
-  Multiple versions were used: \texttt{0.4.1}, \texttt{1.10.1}, \texttt{1.13.1} \cite{pytorch}
+  \item \textbf{Ubuntu 20.04} - Linux operating system widely used in the computer vision community. \cite{ubuntu-site}
+  \item \textbf{Conda} - Package manager for isolated environments. \cite{conda-documentation}
+  \item \textbf{Python 3.9.18} - Main programming language for writing code and conducting experiments. \cite{python}
+  \item \textbf{CUDA 11.7.1} - A development environment for GPU-accelerated applications. \cite{cuda-toolkit}
+  \item \textbf{PyTorch 1.13.1} - A machine learning framework with CUDA integration. \cite{pytorch}
 \end{itemize}
 
 \subsection{Workstation parameters}
@@ -31,20 +27,17 @@ The experiments were prepared and conducted on a personal computer with the foll
 
 \section{Preparing test dataset}
 
-To evaluate the algorithms' real-life usefulness, I prepared a small test dataset of photos.
-The dataset contains a variety of indoor scenes with plenty of tricky floor layouts,
-including glass walls, windows, and mirrors.
-Additionally, there are several photos of the outskirts of the building
-to evaluate the algorithms' coping with the outdoor environment within the building's proximity.
-Each scene was shot in two different lighting conditions - day and night.
-Thus, the dataset is capable of testing the effect of illumination on segmentation quality.
+To evaluate the algorithms' real-life usefulness,
+I prepared a set of photos of various indoor scenes and outskirts of the building.
+I shot each scene in two different lighting conditions - day and night.
+A model for the scenes was the main building of the AGH faculty of Computer Science - D17.
 
 \par
 
-The photos were taken with the rear camera of the \texttt{Samsung Galaxy A54 5G} phone
-with the model name \texttt{SM-A546B/DS}.
-The building that served as a source of the indoor and outdoor scenes
-is the main building of the AGH faculty of Computer Science - D17.
+I took pictures using the rear camera of the \texttt{Samsung Galaxy A54 5G} phone, model \texttt{SM-A546B/DS}.
+The image resolution is 4080x3060.
+The horizontal field of view ($FoV_h$) is $\ang{72.7}$
+and the vertical field of view ($FoV_v$) - $\ang{57.8}$. \cite{camera-fv-5-samsung-a54}
 
 \subsection{Calculating Camera Matrix}
 
@@ -87,11 +80,9 @@ where:
   \item $FoV_v$ is the camera vertical field of view in degrees
 \end{itemize}
 
-The image resolution is \texttt{4080x3060}, so $R_h = 4080$ and $R_v = 3060$.
-From the publicly available documentation about the rear camera in the phone,
-I got the horizontal and vertical field of view (FoV). \cite{camera-fv-5-samsung-a54}
-Thus, we get the respective values for $FoV_h = \ang{72.7}$ and $FoV_v = \ang{57.8}$.
-Applying these values to the Equation~\ref{eq:camera-intrinsic-parameters} gives the following result:
+The image resolution is \texttt{4080x3060}, so $R_h = 4080$ and $R_v = 3060$. 
+Fields of view are $FoV_h = \ang{72.7}$ and $FoV_v = \ang{57.8}$.
+Applying these values to Equation 4.2 gives the following result:
 \begin{equation} \label{eq:camera-intrinsic-parameters-solved}
 \begin{cases}
   f_x = 2772.05 \approx 2772 \\
@@ -103,38 +94,38 @@ Applying these values to the Equation~\ref{eq:camera-intrinsic-parameters} gives
 
 \section{Setting-up the environment}
 
-The first step in using every repository is setting the working environment up.
-Nowadays, almost every project using some form of artificial intelligence is Python-oriented.
-This is especially true for algorithms that incorporate some forms of neural networks.
-This fact is not coincidental - the Python environment is rich in multiple sophisticated libraries.
-These libraries provide means for many highly complicated tasks, such as matrix operations,
+The first step in using every repository is setting up the working environment.
+Nowadays, almost every project using artificial intelligence is Python-oriented,
+and algorithms incorporating some form of neural networks are no exception.
+It is not coincidental.
+The Python environment is rich in multiple sophisticated libraries,
+providing means for many highly complicated tasks, such as matrix operations,
 which are essential for any neural network manipulations.
-Additionally, training a neural network is a process, which requires huge amounts of computation.
-Because of that, graphic cards (Graphic Processing Unit - GPU)
-are entangled to do most of the demanding calculations.
-GPUs are normally optimized for graphic computations, 
-o there are separate dedicated drivers that transform a classic GPU
-into a General Purpose Graphic Processing Unit (GPGPU),
-which is tuned for mathematical calculations.
+Additionally, training a neural network requires immense computation,
+and graphic cards (Graphic Processing Unit - GPU) are responsible for doing most of it.
+GPUs have high computing capacity but are conventionally optimized for graphic problems.
+Thus, separate dedicated drivers are necessary to transform a classic GPU
+into a General Purpose Graphic Processing Unit (GPGPU) tuned for mathematical calculations.
 
 \par
 
-Ultimately, we end up with a tremendously complicated environment with
-dedicated graphic drivers, python libraries, system libraries, etc.
-Each of these components adds an additional layer of complexity.
+Ultimately, we end up with a tremendously complicated environment
+with dedicated graphic drivers, python libraries, system libraries, etc.
+Each of these components adds a layer of complexity.
 Taking into consideration the environment specification,
 getting a state-of-the-art neural network project going may be a highly challenging and time-consuming task.
 
 \subsection{PlaneRCNN} \label{subsec:planercnn}
 
-I have started my work with an attempt to set up the PlaneRCNN repository. \cite{planercnn-repository}
-At first glance, everything looks good - there is an installation instruction together with a `requirements.txt` file.
-All the installation went smoothly, but when I tried to run an example evaluation:
+I started my work with an attempt to set up the PlaneRCNN repository. \cite{planercnn-repository}
+The provided files seemed complete - an installation instruction followed by a \texttt{requirements.txt} file.
+The installation went smoothly.
+Next, I tried to run an example evaluation:
 \begin{lstlisting}[language=bash,basicstyle=\small]
     $ python evaluate.py --methods=f --suffix=warping_refine --dataset=inference --customDataFolder=example_images
 \end{lstlisting}
-The following exception occurred:
-\begin{lstlisting}[language=bash,basicstyle=\tiny]
+I received an error: GPU software cannot run \texttt{nms} - a part of the PlaneRCNN repository.
+\begin{lstlisting}[language=bash,basicstyle=\small]
     Traceback (most recent call last):
     File "evaluate.py", line 20, in <module>
       from models.model import *
@@ -149,48 +140,44 @@ The following exception occurred:
   ImportError: /home/agent/Masters/Repos/planercnn/nms/_ext/nms/_nms.so: undefined symbol: __cudaRegisterFatBinaryEnd
 \end{lstlisting}
 
-After some thorough investigation,
-I discovered that the PyTorch \cite{pytorch} in version \texttt{0.4.1}
-supports only old CUDA (Compute Unified Device Architecture \cite{cuda-toolkit}) versions,
+After a thorough investigation, I discovered that the PyTorch \cite{pytorch} in version \texttt{0.4.1}
+supports only old  Compute Unified Device Architecture (CUDA) \cite{cuda-toolkit} versions,
 which are incompatible with modern GPUs.
 
 \par
 
 Based on this knowledge, I tried to bump the PyTorch version to at least \texttt{1.10},
-which offers support with some of the latest CUDA releases.
-Then I encountered another obstacle - there are two custom CUDA modules written in C \cite{c-language}:
+which supports some of the latest CUDA releases, but I encountered another obstacle.
+There are two custom CUDA modules written in C \cite{c-language}:
 \begin{itemize}
 \item \texttt{nms} - implementation of Non-Maximum Suppression algorithm
 \item \texttt{roi\_align} - implementation of RoIAlign algorithm proposed by He et al. \cite{inproceedingsMaskRCNN}
 \end{itemize}
 
-Unfortunately, PyTorch from version \texttt{1.0.0} removed support for \texttt{C} modules
+Unfortunately, PyTorch from version \texttt{1.0.0} has removed support for C modules
 and left only the \texttt{C++} \cite{cpp-language} option.
-Since these custom modules needed to be rewritten anyway, after some additional research,
-I was able to get rid of them completely,
-thanks to the publicly available replacement by WeihongPan \cite{planercnn-repository-weihong-pan-fork}.
-Thanks to this, the process of setting up the PlaneRCNN environment was simplified.
+(it was part of the \texttt{torch.legacy} package \cite{pytorch-release-1.0.0})
+Thus, these custom modules needed to be rewritten.
+After additional research, instead of changing them, I removed them completely,
+thanks to the publicly available replacement by WeihongPan \cite{planercnn-repository-weihong-pan-fork}:
 
 We can get rid of both custom modules:
 \begin{itemize}
 \item \texttt{nms}
-PyTorch library, in higher versions, provides the Non-Maximum Suppression algorithm,
-so a version update is enough in this case.
+Higher versions of the PyTorch library already provide the Non-Maximum Suppression algorithm,
+so a version update is enough.
 \item \texttt{roi\_align}
-Implementation of the RoIAlign algorithm is now available as a separate package \cite{roialign-package},
-so it is installed instead of using the \texttt{roi\_align} custom module.
+An implementation of the RoIAlign algorithm is now available as a separate package \cite{roialign-package},
+so it is installed instead of using the custom module.
 \end{itemize}
+As a result, setting up the PlaneRCNN environment was simplified.
 
 \par
 
-WeihongPan also published his own method of setting up the PlaneRCNN environment,
-but it also failed on the package incompatibilities.
+WeihongPan also published a method of setting up the PlaneRCNN environment.
+However, the installation failed with an error suggesting package incompatibilities.
 
-Package requirements installation:
-\begin{lstlisting}[language=bash]
-$ pip install -r requirements.txt
-\end{lstlisting}
-Failed with the following error:
+It failed with the following error:
 \begin{lstlisting}[language=bash]
 Collecting cffi==1.15.0 (from -r requirements.txt (line 10))
   Using cached cffi-1.15.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (1.2 kB)
@@ -206,9 +193,9 @@ which suggests package incompatibilities.
 
 \par
 
-Based on this knowledge, I decided to select my own set of compatible libraries
+On this ground, I decided to select my own set of compatible libraries
 and ship them as a Conda \cite{conda-documentation} environment definition.
-As a result of this operation, the \texttt{environment.yml} file was created:
+As a result, I created the \texttt{environment.yml} file:
 \begin{lstlisting}[style=yaml]
 name: planercnn_pytorch_1_13_cuda_11_7
 channels:
@@ -229,7 +216,7 @@ dependencies:
 prefix: $HOME/.conda/envs/planercnn_pytorch_1_13_cuda_11_7
 \end{lstlisting}
 
-Additionally, I have prepared a convenience script for RoIAlign installation:
+Additionally, I prepared a convenience script for RoIAlign installation:
 \begin{lstlisting}[language=bash]
 #!/bin/bash
 
@@ -247,7 +234,7 @@ cd ..
 rm -rf $WORKDIR
 \end{lstlisting}
 
-Due to this, I was able to add an instruction, which sets up the PlaneRCNN with just a few simple steps:
+As a final step, I added an instruction which sets up the PlaneRCNN in just a few simple steps:
 \begin{lstlisting}[language=bash]
 $ conda env create -f environment.yml
 $ conda activate planercnn_pytorch_1_13_cuda_11_7
@@ -257,15 +244,15 @@ $ ./install_roi_align.sh
 
 \subsection{PlaneRecNet}
 
-With PlaneRecNet \cite{xie2021planerecnet},
-there was a similar situation as with the PlaneRCNN from Section~\ref{subsec:planercnn}.
-There is the whole conda environment exported to the file \texttt{environment.yml}.
-So, in theory, anyone should be able to get the environment running with a simple command:
+With the PlaneRecNet repository \cite{planerecnet-repository},
+there was a similar situation as with the PlaneRCNN (Section~\ref{subsec:planercnn}).
+The whole Conda environment is exported to the file \texttt{environment.yml}, so, in theory,
+anyone should be able to get it running with a simple command:
 \begin{lstlisting}[language=bash]
 $ conda env create -f environment.yml
 \end{lstlisting}
 
-Unfortunately, I encountered the following error:
+Unfortunately, I encountered the following error stating that some libraries are incompatible:
 \begin{lstlisting}[language=bash]
 Solving environment: failed
 
@@ -279,15 +266,13 @@ The following packages are incompatible
       - ffmpeg >=4.3.2,<4.4.0a0 , which conflicts with any installable versions previously reported.
 \end{lstlisting}
 
-In other words, some of the libraries are incompatible.
 To resolve the problem, I tried manipulating versions of the conflicting libraries.
 But as a result, I always received even more errors.
 
-\par
-
-I decided to build a compatible set of libraries from scratch as a conda environment definition.
-I selected the same PyTorch and CUDA versions as in Section~\ref{subsec:planercnn},
-and then, fit the rest of the dependencies.
+To resolve the problem, I tried manipulating versions of the conflicting libraries but received even more errors.
+Therefore, I decided to build a compatible set of libraries from scratch as a Conda environment definition.
+I selected the same PyTorch and CUDA versions as in Section~\ref{subsec:planercnn}
+and then fitted the rest of the dependencies.
 As a result, the following \texttt{environment.yml} file was created:
 \begin{lstlisting}[style=yaml]
 name: PlaneRecNet
@@ -308,7 +293,12 @@ dependencies:
 prefix: $HOME/.conda/envs/PlaneRecNet  
 \end{lstlisting}
 
-Finally, anyone can set up their working environment for PlaneRecNet with just one simple command:
+The final outcome is a one simple command setting the working environment for the PlaneRecNet:
 \begin{lstlisting}[language=bash]
 $ conda env create -f environment.yml
 \end{lstlisting}
+
+\section{Used Models Implementations}
+
+For plane segmentation comparison I used trained models shared by the articles' authors
+of both PlaneRCNN \cite{planercnn-repository} and PlaneRecNet \cite{planerecnet-repository}. 
