@@ -354,10 +354,19 @@ In the section~\ref{subsec:neural-networks} the basic principles of neural netwo
 
 \subsection{End: Ask if needed neural network theory}
 
-\subsection{RGB state-of-the-art - PlaneSegNet}
+\section{RGB state-of-the-art}
 
-The current state-of-the-art RGB plane segmentation is represented by PlaneSegNet
-proposed by Yaxu Xie et al. \cite{inproceedingsPlaneSegNet}
+The current state-of-the-art RGB plane segmentation is represented by:
+\begin{itemize}
+\item PlaneRCNN proposed by Chen Liu et al. \cite{articlePlaneRCNN}.
+\item PlaneRecNet proposed by Yaxu Xie et al. \cite{xie2021planerecnet}.
+\item PlaneSegNet proposed by Yaxu Xie et al. \cite{inproceedingsPlaneSegNet}.
+\end{itemize}
+
+All of these approaches are presented in the following sections.
+
+\subsection{PlaneSegNet}
+
 The architecture is based on the YOLACT++ instance segmentation framework published by
 Bolya et al. \cite{articleYOLACT} with added optimizations in some of the modules.
 The general overview of the framework can be seen in Figure~\ref{figure:PlaneSegNet-Architecture}.
@@ -486,3 +495,9 @@ It is worth noting that this approach adds minimal overhead compared to the Fast
     \caption{Fast Feature NMS \cite{inproceedingsPlaneSegNet}}
 \end{algorithm}
 \end{minipage}
+
+\subsection{PlaneRCNN}
+
+The general architecture of the framework can be seen in Figure~\ref{figure:PlaneRCNN-Architecture}.
+There are three main modules:
+Plane detection network - This module locates planar segments
